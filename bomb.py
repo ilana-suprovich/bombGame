@@ -1,14 +1,11 @@
 from tkinter import *
-
-
-
+import datetime
 from players import Players
-from add_player import AddPlayer
-from add_player import Authentication
-from add_player import get_log
+
+
 import sqlite3
 
-bomb = 100
+bomb = 30
 score = 0
 press_return = True
 
@@ -20,7 +17,7 @@ def start(event):
     if not press_return:
         pass
     else:
-        bomb = 100
+        bomb = 30
         score = 0
         label.config(text='')
         update_bomb()
@@ -46,16 +43,17 @@ def update_display():
 def update_bomb():
     global bomb
     if is_alive():
-        bomb -= 5
+        bomb -= 1
         fuse_label.after(400, update_bomb)
 
 
 def update_score():
     global score
     if is_alive():
-        score += 1
+        score += 5
         points_label.after(3000, update_score)
-
+    else:
+        print("Game is over!")
 
 def click(event=None):
     global bomb
@@ -66,11 +64,20 @@ def click(event=None):
 def is_alive():
     global bomb
     global score
-    if bomb <= 0:
+    if bomb == 0:
         label.config(text='Bang! Bang! Bang!')
         return False
     else:
         return True
+
+
+def save_score():
+    if not is_alive():
+        date = datetime.datetime.now()
+        con = sqlite3.connect('players.db')
+        cur = con.cursor()
+        cur.execute('Insert into players (player_score, date) values (?, ?) ', (score, date.strftime("%b %d %Y %H:%M:%S")))
+        con.commit()
 
 
 def additional_fuse():
@@ -82,26 +89,17 @@ def additional_fuse():
         points_label.after(3000, update_score)
 
 
-def add_player():
-    add_player = AddPlayer()
+# def add_player():
+#     add_player = AddPlayer()
 
 
 def players():
     view = Players()
 
 
-def login():
-    print(score)
-    auth = Authentication()
-    con = sqlite3.connect('players.db')
-    cur = con.cursor()
-    # temp = Authentication.get_login(self=Authentication)
-    lala = get_log()
-    print(lala)
-    cur.execute('UPDATE players SET player_score = ? WHERE player_login = ?', (score, get_log()))
-    con.commit()
-
-
+# def login():
+#     print(score)
+#     auth = Authentication()
 
 root = Tk()
 
@@ -143,17 +141,17 @@ buy_fuse_button = Button(root, text='Buy 20 fuse here for 2 points', bg='#000000
                          font=('Comic Sans MS', 14), command=additional_fuse)
 buy_fuse_button.pack()
 
-addButton = Button(root, text='Add new player', font=('Comic Sans MS', 14),
-                   width=15, bg='#000000', fg='#ffffff', command=add_player)
+addButton = Button(root, text='Save score', font=('Comic Sans MS', 14),
+                   width=15, bg='#000000', fg='#ffffff', command=save_score)
 addButton.place(x=570, y=250)
 
-viewButton = Button(root, text='Players', font=('Comic Sans MS', 14),
+viewButton = Button(root, text='Your history', font=('Comic Sans MS', 14),
                     width=15, bg='#000000', fg='#ffffff', command=players)
 viewButton.place(x=570, y=300)
 
-viewButton = Button(root, text='Log in', font=('Comic Sans MS', 14),
-                    width=15, bg='#000000', fg='#ffffff', command=login)
-viewButton.place(x=570, y=200)
+# viewButton = Button(root, text='Log in', font=('Comic Sans MS', 14),
+#                     width=15, bg='#000000', fg='#ffffff', command=login)
+# viewButton.place(x=570, y=200)
 
 root.bind('<Return>', start)
 root.bind("<space>", click)
