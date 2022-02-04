@@ -9,6 +9,6 @@ The more fuse you have - the highest score you get.
 
 The second you have 0 fuse left, the game is over. 
 So now you can see the 'SAVE SCORE' button on the right, which basically saves your score to the database. 
-To check you progress, see the button 'YOUR HISTORY', where you can see the number of times you played, your score, date and time of the last time of playing. 
+To check your progress, see the button 'YOUR HISTORY', where you can see the number of times you played, your score, date and time of the last time of playing. 
 
 That is pretty it, hope you'll enjoy it. 
