@@ -3,6 +3,7 @@ This game may be considered as a time killer.
 # Interface
 At the top you can see FUSE label, which shows how many fuse you have and basically how many time you can play. The next label says POINTS, which means the number of the points that you have scored. 
 In the centre you see the picture of the bomb itself, which will change throughout the game. 
+# Instructions
 So, what you have to do is to PRESS ENTER to start the game. You should see that the fuse is decreasing, then you have to PRESS SPACEBAR, which increases your fuse number. The more you press spacebar, the more fuse you have. 
 The more fuse you have - the highest score you get. 
 
